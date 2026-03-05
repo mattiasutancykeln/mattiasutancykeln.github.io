@@ -60,9 +60,10 @@ const linkBlockVariants = {
 
 export default function NavOverlay() {
   return (
-    <>
-      {/* Links block: right-flushed, using the right side of the screen */}
+    <div className="landing-nav">
+      {/* Links block: right side on desktop; top left on mobile */}
       <motion.div
+        className="landing-nav__side"
         style={{
           position: 'absolute',
           right: 'clamp(1.5rem, 5vw, 3rem)',
@@ -82,6 +83,7 @@ export default function NavOverlay() {
           </UnderlineLink>
         </motion.div>
         <motion.p
+          className="landing-nav__label"
           variants={linkBlockVariants}
           initial="initial"
           animate="animate"
@@ -107,8 +109,9 @@ export default function NavOverlay() {
         </motion.div>
       </motion.div>
 
-      {/* Top right: CV + socials */}
+      {/* Top right: CV + socials (same on desktop and mobile) */}
       <motion.div
+        className="landing-nav__top"
         style={{
           position: 'absolute',
           top: '1.25rem',
@@ -138,27 +141,29 @@ export default function NavOverlay() {
           <CVIcon />
           <span>CV</span>
         </Link>
-        <span style={{ width: 1, height: 14, background: 'var(--border)' }} aria-hidden />
-        {SOCIAL.map(({ href, Icon, label }) => (
-          <a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={label}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--text-muted)',
-              padding: 4,
-            }}
-            className="nav-icon-link"
-          >
-            <Icon />
-          </a>
-        ))}
+        <span className="landing-nav__top-sep" style={{ width: 1, height: 14, background: 'var(--border)' }} aria-hidden />
+        <div className="landing-nav__icons" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          {SOCIAL.map(({ href, Icon, label }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--text-muted)',
+                padding: 4,
+              }}
+              className="nav-icon-link"
+            >
+              <Icon />
+            </a>
+          ))}
+        </div>
       </motion.div>
-    </>
+    </div>
   );
 }

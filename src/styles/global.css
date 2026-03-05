@@ -46,7 +46,36 @@ a:hover {
   font-family: 'IBM Plex Mono', monospace;
 }
 
-/* Landing nav: top-right CV + icon links */
+/* Landing nav: right side + top right on desktop; top left (links) + top right (CV + icons) on mobile */
+.landing-nav {
+  pointer-events: none;
+}
+.landing-nav > * {
+  pointer-events: auto;
+}
+@media (max-width: 768px) {
+  .landing-nav__side {
+    left: clamp(1rem, 4vw, 1.5rem) !important;
+    right: auto !important;
+    top: 1.25rem !important;
+    transform: none !important;
+    align-items: flex-start !important;
+    text-align: left;
+  }
+  .landing-nav__side a[href] {
+    text-align: left;
+  }
+  .landing-nav__top {
+    flex-direction: column !important;
+    align-items: flex-end !important;
+  }
+  .landing-nav__top-sep {
+    display: none;
+  }
+  .landing-nav__icons {
+    order: -1;
+  }
+}
 a.nav-top-cv:hover,
 a.nav-icon-link:hover {
   color: var(--accent-teal) !important;
@@ -58,6 +87,22 @@ a.nav-icon-link:hover svg {
 /* Inner layout nav: social icon hover */
 a.layout-nav-icon:hover svg {
   color: var(--accent-teal) !important;
+}
+
+/* Inner pages: mobile (PROJECT.md §9) — single column, nav wraps */
+@media (max-width: 768px) {
+  .layout-nav {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem !important;
+  }
+  .layout-nav__links {
+    flex-wrap: wrap;
+    gap: 0.5rem !important;
+  }
+  .layout-nav__links a {
+    font-size: 0.9rem !important;
+  }
 }
 
 /* --- PostCard (research / lectures) --- */
@@ -235,6 +280,26 @@ a.layout-nav-icon:hover svg {
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
+@media (max-width: 767px) {
+  .post-modal {
+    padding: 0;
+    align-items: stretch;
+  }
+  .post-modal__panel {
+    max-height: none;
+    height: 100%;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+  .post-modal__left {
+    padding: 1.25rem 1rem;
+  }
+  .post-modal__right {
+    min-height: 240px;
+    max-height: 50vh;
+  }
+}
 @media (min-width: 720px) {
   .post-modal__panel {
     grid-template-columns: 1fr 1fr;
@@ -322,7 +387,7 @@ a.layout-nav-icon:hover svg {
   overflow: auto;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
 }
 @media (min-width: 720px) {
   .post-modal__right {
@@ -362,7 +427,7 @@ a.layout-nav-icon:hover svg {
 .pdf-pages-viewer__pages {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 .pdf-pages-viewer--error {
   padding: 2rem;
@@ -401,7 +466,7 @@ a.layout-nav-icon:hover svg {
   gap: 2rem;
   margin-top: 0.5rem;
 }
-@media (min-width: 720px) {
+@media (min-width: 768px) {
   .posts-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 2.25rem;

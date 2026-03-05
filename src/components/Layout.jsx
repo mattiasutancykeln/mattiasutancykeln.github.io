@@ -78,6 +78,7 @@ export default function Layout() {
         }}
       >
         <nav
+          className="layout-nav"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -87,7 +88,7 @@ export default function Layout() {
             margin: '0 auto',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          <div className="layout-nav__links" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             <Link
               to="/"
               className="font-display"
@@ -119,7 +120,7 @@ export default function Layout() {
               </NavLink>
             ))}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="layout-nav__social" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {SOCIAL.map(({ href, Icon, label }) => (
               <a
                 key={label}

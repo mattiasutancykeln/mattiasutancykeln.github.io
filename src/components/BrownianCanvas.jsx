@@ -23,6 +23,9 @@ const TEXT_FONT = '"Playfair Display", "EB Garamond", serif';
 const NAME_LEFT_RATIO = 0.14;
 const NAME_FONT_SCALE = 0.62;
 const NAME_LINE_HEIGHT = 1.18;
+const NAME_BOTTOM_MARGIN = 24;
+/** Approximate width of "Mattias" in ems; used to keep name on-canvas when positioning */
+const NAME_APPROX_WIDTH_EMS = 4.2;
 const TEXT_GRID_CELL = 3;
 
 // Scroll → shake the box; force applied to balls with liquid inertia
@@ -33,8 +36,27 @@ const SHAKE_INERTIA = 0.03;
 const SNAP_DAMP = 0.88;
 const SNAP_SHAKE_SCALE = 0.08;
 
-function getTextFontSize(h) {
-  return Math.min(TEXT_FONT_SIZE, Math.max(48, h * 0.42)) * NAME_FONT_SCALE;
+const MOBILE_BREAKPOINT = 480;
+
+function getTextFontSize(h, w) {
+  const size = Math.min(TEXT_FONT_SIZE, Math.max(48, h * 0.42)) * NAME_FONT_SCALE;
+  const isNarrow = typeof w === 'number' && w < MOBILE_BREAKPOINT;
+  return isNarrow ? Math.min(80, size) : size;
+}
+
+/** Name position: left/center on desktop; bottom center-right on mobile (adaptive so name is never clipped) */
+function getNamePosition(w, h, fontSize = null) {
+  if (w < MOBILE_BREAKPOINT && typeof fontSize === 'number') {
+    const lineHeight = fontSize * NAME_LINE_HEIGHT;
+    const blockBottom = lineHeight / 2 + fontSize / 2;
+    const topMin = NAME_BOTTOM_MARGIN + lineHeight / 2 + fontSize / 2;
+    const bottomOffset = NAME_BOTTOM_MARGIN + h * 0.05 + 12;
+    const nameY = Math.max(topMin, h - bottomOffset - blockBottom);
+    const approxWidth = fontSize * NAME_APPROX_WIDTH_EMS;
+    const nameX = Math.max(0, Math.min(w * 0.55, w - approxWidth - 16));
+    return { nameX, nameY };
+  }
+  return { nameX: w * NAME_LEFT_RATIO, nameY: h / 2 };
 }
 
 function drawNameText(ctx, nameX, nameY, fontSize, fillStyle) {
@@ -261,13 +283,13 @@ export default function BrownianCanvas() {
       ctx.fillRect(0, 0, w, h);
 
       let gridMatches = textGridRef.current && textGridRef.current.sourceW === w && textGridRef.current.sourceH === h;
+      const textFontSize = gridMatches && textGridRef.current ? textGridRef.current.fontSize : getTextFontSize(h, w);
+      const namePos = getNamePosition(w, h, textFontSize);
       if (!gridMatches && w > 0 && h > 0) {
-        const fontSize = getTextFontSize(h);
-        const nameX = w * NAME_LEFT_RATIO;
-        const nameY = h / 2;
+        const fontSize = getTextFontSize(h, w);
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, w, h);
-        drawNameText(ctx, nameX, nameY, fontSize, '#fff');
+        drawNameText(ctx, namePos.nameX, namePos.nameY, fontSize, '#fff');
         const imageData = ctx.getImageData(0, 0, w, h);
         textGridRef.current = buildTextGridFromImageData(imageData, w, h, fontSize);
         gridMatches = true;
@@ -279,7 +301,6 @@ export default function BrownianCanvas() {
       const gW = gridMatches && textGridRef.current ? textGridRef.current.gW : 0;
       const gH = gridMatches && textGridRef.current ? textGridRef.current.gH : 0;
       const cell = gridMatches && textGridRef.current ? textGridRef.current.cell : TEXT_GRID_CELL;
-      const textFontSize = gridMatches && textGridRef.current ? textGridRef.current.fontSize : getTextFontSize(h);
 
       const shake = shakeRef.current;
       const scrollOffset = scrollOffsetRef.current;
@@ -347,12 +368,12 @@ export default function BrownianCanvas() {
       }
 
       const teal = getAccentTeal();
-      const nameX = w * NAME_LEFT_RATIO;
-      const nameY = h / 2;
       ctx.save();
       ctx.shadowColor = teal;
       ctx.shadowBlur = 28;
       ctx.globalAlpha = 0.5;
+      const nameX = namePos.nameX;
+      const nameY = namePos.nameY;
       drawNameText(ctx, nameX, nameY, textFontSize, teal);
       ctx.restore();
 

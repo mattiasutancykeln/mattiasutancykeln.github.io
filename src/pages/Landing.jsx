@@ -18,7 +18,7 @@ function Landing() {
       <BrownianCanvas />
       <NavOverlay />
       <p
-        className="font-mono"
+        className="font-mono landing-footer-caption"
         style={{
           position: 'absolute',
           bottom: '0.75rem',
