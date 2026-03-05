@@ -1,0 +1,23 @@
+/* Mattias Akke Personal Website — design tokens (PROJECT.md §0) */
+:root {
+  /* Backgrounds */
+  --bg: #0D1A14;
+  --bg-surface: #121F18;
+  --bg-hover: #1A2E22;
+
+  /* Accents */
+  --accent-teal: #3ECFB2;
+  --accent-sage: #7EB89A;
+  --accent-amber: #D4A84B;
+
+  /* Text */
+  --text-primary: #EAE8E0;
+  --text-muted: #6E8A7A;
+
+  /* Borders */
+  --border: #1E3328;
+
+  /* Particles (canvas) */
+  --particle-sm: rgba(62, 207, 178, 0.55);
+  --particle-lg: rgba(126, 184, 154, 0.4);
+}

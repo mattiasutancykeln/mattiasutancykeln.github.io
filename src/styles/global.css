@@ -1,0 +1,208 @@
+/* Global styles — typography & reset (PROJECT.md §0, §1) */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
+
+@import './variables.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text-primary);
+  background-color: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent-teal);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-amber);
+}
+
+/* Display / name — classical, scholarly */
+.font-display {
+  font-family: 'Playfair Display', 'EB Garamond', serif;
+}
+
+/* Monospace labels / metadata */
+.font-mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Landing nav: top-right CV + icon links */
+a.nav-top-cv:hover,
+a.nav-icon-link:hover {
+  color: var(--accent-teal) !important;
+}
+a.nav-icon-link:hover svg {
+  color: inherit;
+}
+
+/* Inner layout nav: social icon hover */
+a.layout-nav-icon:hover svg {
+  color: var(--accent-teal) !important;
+}
+
+/* --- PostCard (research / lectures) --- */
+.post-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.post-card:hover {
+  border-color: var(--card-accent, var(--accent-teal));
+  box-shadow: 0 0 0 1px var(--card-accent, var(--accent-teal)), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.post-card__figure-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-hover);
+  overflow: hidden;
+}
+.post-card__figure {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.post-card__status {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--accent-amber);
+  color: var(--bg);
+}
+.post-card__body {
+  padding: 1rem 1.25rem;
+}
+.post-card__meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0 0 0.35rem;
+}
+.post-card__tag {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--border);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+.post-card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+}
+.post-card__summary {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.post-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.post-card__link {
+  font-size: 0.85rem;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--card-accent, var(--accent-teal));
+}
+.post-card__link:hover {
+  color: var(--accent-amber);
+}
+.post-card__link--btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+
+/* Lecture: PDF placeholder or first-page thumb */
+.post-card__pdf-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--text-muted);
+}
+.post-card__pdf-placeholder .pdf-icon {
+  width: 64px;
+  height: 64px;
+  opacity: 0.6;
+}
+
+.pdf-thumb {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.pdf-thumb__canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pdf-thumb--error {
+  color: var(--text-muted);
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.pdf-thumb__fallback {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+}
+.pdf-thumb--error .pdf-icon {
+  width: 48px;
+  height: 48px;
+}
+
+/* Grid of post cards (research / lectures) */
+.posts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 720px) {
+  .posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
