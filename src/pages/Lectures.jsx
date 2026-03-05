@@ -1,13 +1,18 @@
 /**
- * Lectures page — grid of PostCards (PROJECT.md §3.4). No links/figures; PDF icon or first-page preview.
+ * Lectures page — grid of PostCards (PROJECT.md §3.4). Click card opens PostModal.
  */
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import PostCard from '../components/PostCard';
+import PostModal from '../components/PostModal';
 import { lecturePosts } from '../content/lectures';
 
 export default function Lectures() {
+  const [selectedPost, setSelectedPost] = useState(null);
+
   return (
-    <article style={{ padding: '2rem 0' }}>
+    <article>
       <p className="font-mono" style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
         <Link to="/" style={{ color: 'inherit' }}>← home</Link>
       </p>
@@ -18,9 +23,19 @@ export default function Lectures() {
             key={post.slug}
             post={post}
             variant="lecture"
+            onMoreClick={setSelectedPost}
           />
         ))}
       </div>
+      <AnimatePresence>
+        {selectedPost && (
+          <PostModal
+            post={selectedPost}
+            variant="lecture"
+            onClose={() => setSelectedPost(null)}
+          />
+        )}
+      </AnimatePresence>
     </article>
   );
 }

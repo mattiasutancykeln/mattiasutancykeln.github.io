@@ -1,39 +1,76 @@
 /**
  * Card for research and lecture entries (PROJECT.md §3.3, §3.4).
- * Research: figure, institution, title, summary, tags, status, [↗ Paper] [⬇ PDF] [→ More].
- * Lecture: no figure image, no links; PDF icon or first-page PDF preview in 16:9 area. Accent: sage.
+ * Click on card opens the modal (when onMoreClick is provided). Links (↗ Paper, ⬇ PDF, View PDF) open in new tab.
  */
 import { motion } from 'framer-motion';
 import PdfFirstPageThumb, { PdfIcon } from './PdfFirstPageThumb';
 
 const BASE = import.meta.env.BASE_URL;
 
+function absoluteUrl(path) {
+  if (typeof window === 'undefined') return path;
+  return new URL(path, window.location.origin).href;
+}
+
 export default function PostCard({ post, variant = 'research', onMoreClick }) {
   const isLecture = variant === 'lecture';
   const accentVar = isLecture ? '--accent-sage' : '--accent-teal';
 
-  const contentBase = isLecture ? 'content/lectures' : 'content/research';
+  const contentBase = isLecture ? 'content/lecture' : 'content/research';
   const figureSrc = !isLecture && post.figure
     ? `${BASE}${contentBase}/${post.slug}/${post.figure}`
     : null;
-  const pdfUrl = post.pdfFile
+  const pdfPath = post.pdfFile
     ? `${BASE}${contentBase}/${post.slug}/${post.pdfFile}`
     : null;
+  const pdfUrl = pdfPath ? absoluteUrl(pdfPath) : null;
+
+  const primaryUrl = isLecture
+    ? pdfUrl
+    : (post.externalLink || pdfUrl || null);
+
+  const isClickable = !!onMoreClick || !!primaryUrl;
+
+  const handleCardClick = (e) => {
+    if (e.target.closest('a') || e.target.closest('button')) return;
+    if (onMoreClick) {
+      onMoreClick(post);
+      return;
+    }
+    if (primaryUrl) {
+      e.preventDefault();
+      window.open(primaryUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    e.preventDefault();
+    if (onMoreClick) onMoreClick(post);
+    else if (primaryUrl) window.open(primaryUrl, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <motion.article
       className="post-card"
       data-variant={variant}
-      style={{ '--card-accent': `var(${accentVar})` }}
+      style={{
+        '--card-accent': `var(${accentVar})`,
+        cursor: isClickable ? 'pointer' : undefined,
+      }}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
       whileHover={{ transition: { duration: 0.15 } }}
+      onClick={handleCardClick}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      onKeyDown={isClickable ? handleKeyDown : undefined}
     >
-      {/* Figure / PDF area — 16:9 */}
+      {/* Figure / PDF area */}
       <div className="post-card__figure-wrap">
         {isLecture ? (
-          pdfUrl ? (
+          pdfPath ? (
             <PdfFirstPageThumb pdfUrl={pdfUrl} alt={post.title} />
           ) : (
             <div className="post-card__pdf-placeholder" aria-label="PDF">
@@ -42,11 +79,11 @@ export default function PostCard({ post, variant = 'research', onMoreClick }) {
           )
         ) : (
           figureSrc && (
-            <img
-              src={figureSrc}
-              alt=""
+            <div
               className="post-card__figure"
-              loading="lazy"
+              style={{ backgroundImage: `url(${figureSrc})` }}
+              role="img"
+              aria-hidden
             />
           )
         )}
@@ -72,7 +109,7 @@ export default function PostCard({ post, variant = 'research', onMoreClick }) {
         <h2 className="post-card__title font-display">{post.title}</h2>
         <p className="post-card__summary">{post.summary}</p>
 
-        {!isLecture && (
+        {!isLecture && (post.externalLink || post.pdfFile) && (
           <div className="post-card__links">
             {post.externalLink && (
               <a
@@ -80,6 +117,7 @@ export default function PostCard({ post, variant = 'research', onMoreClick }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="post-card__link"
+                onClick={(e) => e.stopPropagation()}
               >
                 ↗ Paper
               </a>
@@ -90,19 +128,25 @@ export default function PostCard({ post, variant = 'research', onMoreClick }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="post-card__link"
+                onClick={(e) => e.stopPropagation()}
               >
                 ⬇ PDF
               </a>
             )}
-            {onMoreClick && (
-              <button
-                type="button"
-                className="post-card__link post-card__link--btn"
-                onClick={() => onMoreClick(post)}
-              >
-                → More
-              </button>
-            )}
+          </div>
+        )}
+
+        {isLecture && pdfUrl && (
+          <div className="post-card__links">
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="post-card__link"
+              onClick={(e) => e.stopPropagation()}
+            >
+              View PDF
+            </a>
           </div>
         )}
       </div>

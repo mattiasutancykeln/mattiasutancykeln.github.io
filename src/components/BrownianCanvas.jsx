@@ -4,8 +4,7 @@
  * COORDINATE SYSTEM (single source of truth):
  * - Simulation runs entirely in canvas buffer space: (0,0) to (canvas.width, canvas.height).
  * - All physics, text grid, and drawing use these dimensions only.
- * - Grid is only used when grid.sourceW === canvas.width && grid.sourceH === canvas.height.
- * - On resize we clear the grid and rebuild so we never use a stale grid.
+ * - Name collision uses a pixel grid from the rendered text (same shape as letters), rebuilt when canvas size changes.
  */
 import { useRef, useEffect } from 'react';
 
@@ -18,13 +17,21 @@ const REPULSION_STRENGTH = 1000;
 const WRAP_MARGIN = 24;
 const TRAIL_LENGTH = 6;
 const TRAIL_MAX_ALPHA = 0.35;
-const TEXT_GRID_CELL = 3;
 const TEXT_FONT_SIZE = 140;
 const TEXT_REFLECT_DAMP = 0.8;
 const TEXT_FONT = '"Playfair Display", "EB Garamond", serif';
 const NAME_LEFT_RATIO = 0.14;
 const NAME_FONT_SCALE = 0.62;
 const NAME_LINE_HEIGHT = 1.18;
+const TEXT_GRID_CELL = 3;
+
+// Scroll → shake the box; force applied to balls with liquid inertia
+const SCROLL_SHAKE_SCALE = 0.08;
+const SHAKE_DAMP = 0.88;
+const SHAKE_INERTIA = 0.03;
+// Virtual scroll offset (accumulates wheel); when user stops, it snaps back toward 0
+const SNAP_DAMP = 0.88;
+const SNAP_SHAKE_SCALE = 0.08;
 
 function getTextFontSize(h) {
   return Math.min(TEXT_FONT_SIZE, Math.max(48, h * 0.42)) * NAME_FONT_SCALE;
@@ -40,11 +47,7 @@ function drawNameText(ctx, nameX, nameY, fontSize, fillStyle) {
   ctx.fillText('Akke', nameX, nameY + lineHeight / 2);
 }
 
-/**
- * Build collision grid from raw canvas image data.
- * Used when we sample from the MAIN canvas after drawing the text there,
- * so the grid is guaranteed to match the visible letters (same font, same size).
- */
+/** Build collision grid from canvas image data (bright pixels = text). */
 function buildTextGridFromImageData(imageData, sourceW, sourceH, fontSize) {
   if (sourceW <= 0 || sourceH <= 0) {
     return { grid: new Uint8Array(0), gW: 0, gH: 0, cell: TEXT_GRID_CELL, fontSize, sourceW: 0, sourceH: 0 };
@@ -71,7 +74,7 @@ function buildTextGridFromImageData(imageData, sourceW, sourceH, fontSize) {
   return { grid, gW, gH, cell, fontSize, sourceW, sourceH };
 }
 
-/** True if the circle (center cx, cy with radius r) overlaps any text cell. */
+/** True if circle (center cx, cy, radius r) overlaps any text cell. */
 function circleOverlapsText(cx, cy, r, grid, gW, gH, cell) {
   const gxMin = Math.max(0, Math.floor((cx - r) / cell));
   const gxMax = Math.min(gW - 1, Math.floor((cx + r) / cell));
@@ -177,6 +180,8 @@ export default function BrownianCanvas() {
   const particlesRef = useRef([]);
   const textGridRef = useRef(null);
   const mouseRef = useRef({ x: null, y: null });
+  const shakeRef = useRef({ vx: 0, vy: 0 });
+  const scrollOffsetRef = useRef({ x: 0, y: 0 });
   const frameRef = useRef(null);
 
   useEffect(() => {
@@ -227,6 +232,16 @@ export default function BrownianCanvas() {
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseleave', handleMouseLeave);
 
+    const handleWheel = (e) => {
+      const s = shakeRef.current;
+      const o = scrollOffsetRef.current;
+      o.x += e.deltaX;
+      o.y += e.deltaY;
+      s.vx -= e.deltaX * SCROLL_SHAKE_SCALE;
+      s.vy -= e.deltaY * SCROLL_SHAKE_SCALE;
+    };
+    parent.addEventListener('wheel', handleWheel, { passive: true });
+
     const colors = getParticleColors();
     const solidBgFill = getSolidBgFill();
 
@@ -241,13 +256,11 @@ export default function BrownianCanvas() {
       const ctx = canvas.getContext('2d');
       const particles = particlesRef.current;
       const mouse = mouseRef.current;
-      const textGrid = textGridRef.current;
 
       ctx.fillStyle = solidBgFill;
       ctx.fillRect(0, 0, w, h);
 
-      let gridMatches = textGrid && textGrid.sourceW === w && textGrid.sourceH === h;
-
+      let gridMatches = textGridRef.current && textGridRef.current.sourceW === w && textGridRef.current.sourceH === h;
       if (!gridMatches && w > 0 && h > 0) {
         const fontSize = getTextFontSize(h);
         const nameX = w * NAME_LEFT_RATIO;
@@ -268,11 +281,22 @@ export default function BrownianCanvas() {
       const cell = gridMatches && textGridRef.current ? textGridRef.current.cell : TEXT_GRID_CELL;
       const textFontSize = gridMatches && textGridRef.current ? textGridRef.current.fontSize : getTextFontSize(h);
 
+      const shake = shakeRef.current;
+      const scrollOffset = scrollOffsetRef.current;
+      const prevX = scrollOffset.x;
+      const prevY = scrollOffset.y;
+      scrollOffset.x *= SNAP_DAMP;
+      scrollOffset.y *= SNAP_DAMP;
+      shake.vx += (prevX - scrollOffset.x) * SNAP_SHAKE_SCALE;
+      shake.vy += (prevY - scrollOffset.y) * SNAP_SHAKE_SCALE;
       for (const p of particles) {
         p.vx += (Math.random() - 0.5) * BROWNIAN_FORCE;
         p.vy += (Math.random() - 0.5) * BROWNIAN_FORCE;
         p.vx *= DAMPEN;
         p.vy *= DAMPEN;
+
+        p.vx += shake.vx * SHAKE_INERTIA;
+        p.vy += shake.vy * SHAKE_INERTIA;
 
         if (mouse.x != null && mouse.y != null) {
           const dx = p.x - mouse.x;
@@ -288,7 +312,8 @@ export default function BrownianCanvas() {
         let nx = p.x + p.vx;
         let ny = p.y + p.vy;
 
-        if (gW > 0 && gH > 0 && circleOverlapsText(nx, ny, p.r, grid, gW, gH, cell)) {
+        const hitsName = gW > 0 && gH > 0 && circleOverlapsText(nx, ny, p.r, grid, gW, gH, cell);
+        if (hitsName) {
           p.vx *= -TEXT_REFLECT_DAMP;
           p.vy *= -TEXT_REFLECT_DAMP;
         } else {
@@ -331,6 +356,9 @@ export default function BrownianCanvas() {
       drawNameText(ctx, nameX, nameY, textFontSize, teal);
       ctx.restore();
 
+      shake.vx *= SHAKE_DAMP;
+      shake.vy *= SHAKE_DAMP;
+
       frameRef.current = requestAnimationFrame(tick);
     };
 
@@ -340,6 +368,7 @@ export default function BrownianCanvas() {
       ro.disconnect();
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
+      parent.removeEventListener('wheel', handleWheel);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
   }, []);
