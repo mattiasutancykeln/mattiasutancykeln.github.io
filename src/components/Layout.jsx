@@ -145,6 +145,11 @@ export default function Layout() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
+            style={{
+              maxWidth: 1200,
+              margin: '0 auto',
+              padding: 'clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3rem)',
+            }}
           >
             <Outlet />
           </motion.div>

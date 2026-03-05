@@ -75,7 +75,8 @@ a.layout-nav-icon:hover svg {
 
 .post-card__figure-wrap {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2 / 1;
+  max-height: 200px;
   background: var(--bg-hover);
   overflow: hidden;
 }
@@ -198,11 +199,13 @@ a.layout-nav-icon:hover svg {
 .posts-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
+  margin-top: 0.5rem;
 }
 @media (min-width: 720px) {
   .posts-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2.25rem;
   }
 }
 
