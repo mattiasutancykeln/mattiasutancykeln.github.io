@@ -205,6 +205,8 @@ export default function BrownianCanvas() {
   const shakeRef = useRef({ vx: 0, vy: 0 });
   const scrollOffsetRef = useRef({ x: 0, y: 0 });
   const frameRef = useRef(null);
+  /** Track finger motion on parent (passive touch) → same shake as wheel; does not block native scroll */
+  const touchScrollRef = useRef({ active: false, x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -238,6 +240,15 @@ export default function BrownianCanvas() {
     const ro = new ResizeObserver(resize);
     ro.observe(parent);
 
+    const feedScrollShake = (deltaX, deltaY) => {
+      const s = shakeRef.current;
+      const o = scrollOffsetRef.current;
+      o.x += deltaX;
+      o.y += deltaY;
+      s.vx -= deltaX * SCROLL_SHAKE_SCALE;
+      s.vy -= deltaY * SCROLL_SHAKE_SCALE;
+    };
+
     const handleMouseMove = (e) => {
       const rect = canvas.getBoundingClientRect();
       const scaleX = canvas.width / rect.width;
@@ -250,17 +261,39 @@ export default function BrownianCanvas() {
     const handleMouseLeave = () => {
       mouseRef.current = { x: null, y: null };
     };
-
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseleave', handleMouseLeave);
 
+    const touchOpts = { passive: true };
+    const handleTouchStart = (e) => {
+      if (e.touches.length === 0) return;
+      const t = e.touches[0];
+      touchScrollRef.current = { active: true, x: t.clientX, y: t.clientY };
+    };
+    const handleTouchMove = (e) => {
+      const st = touchScrollRef.current;
+      if (!st.active || e.touches.length === 0) return;
+      const t = e.touches[0];
+      const dx = t.clientX - st.x;
+      const dy = t.clientY - st.y;
+      if (dx !== 0 || dy !== 0) feedScrollShake(dx, dy);
+      touchScrollRef.current = { active: true, x: t.clientX, y: t.clientY };
+    };
+    const handleTouchEnd = (e) => {
+      if (e.touches.length === 0) {
+        touchScrollRef.current = { active: false, x: 0, y: 0 };
+      } else {
+        const t = e.touches[0];
+        touchScrollRef.current = { active: true, x: t.clientX, y: t.clientY };
+      }
+    };
+    parent.addEventListener('touchstart', handleTouchStart, touchOpts);
+    parent.addEventListener('touchmove', handleTouchMove, touchOpts);
+    parent.addEventListener('touchend', handleTouchEnd, touchOpts);
+    parent.addEventListener('touchcancel', handleTouchEnd, touchOpts);
+
     const handleWheel = (e) => {
-      const s = shakeRef.current;
-      const o = scrollOffsetRef.current;
-      o.x += e.deltaX;
-      o.y += e.deltaY;
-      s.vx -= e.deltaX * SCROLL_SHAKE_SCALE;
-      s.vy -= e.deltaY * SCROLL_SHAKE_SCALE;
+      feedScrollShake(e.deltaX, e.deltaY);
     };
     parent.addEventListener('wheel', handleWheel, { passive: true });
 
@@ -389,6 +422,10 @@ export default function BrownianCanvas() {
       ro.disconnect();
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
+      parent.removeEventListener('touchstart', handleTouchStart, touchOpts);
+      parent.removeEventListener('touchmove', handleTouchMove, touchOpts);
+      parent.removeEventListener('touchend', handleTouchEnd, touchOpts);
+      parent.removeEventListener('touchcancel', handleTouchEnd, touchOpts);
       parent.removeEventListener('wheel', handleWheel);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };

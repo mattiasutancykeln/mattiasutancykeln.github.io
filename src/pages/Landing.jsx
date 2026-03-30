@@ -30,7 +30,7 @@ function Landing() {
           pointerEvents: 'none',
         }}
       >
-        Brownian dynamics — Langevin thermostat
+        Brownian dynamics — Langevin thermostat · Mattias Akke — nanoscience, computational chemistry and ML
       </p>
     </div>
   );

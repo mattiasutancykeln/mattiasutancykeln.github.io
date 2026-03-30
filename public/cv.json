@@ -1,0 +1,338 @@
+{
+  "cv_format": "mattiasakke.com/cv_v1",
+  "cv_url": "https://mattiasakke.com/cv.json",
+  "generated_note": "Structured export aligned with public CV; keep PDF on site authoritative for layout.",
+
+  "person": {
+    "full_name": "Mattias Akke",
+    "location": "Lund, Sweden",
+    "phone_e164_hint": "+46735099310",
+    "phone_display": "+46 073-5099310",
+    "email": "mattias.akke@gmail.com",
+    "profiles": [
+      {
+        "label": "linkedin",
+        "url": "https://www.linkedin.com/in/mattias-akke-40a83219a"
+      },
+      {
+        "label": "github",
+        "url": "https://github.com/mattiasutancykeln"
+      }
+    ]
+  },
+
+  "professional_summary": "MScEng in Engineering Nanoscience and Applied Mathematics with experience in AI for science, competitive programming, chemistry, biophysics, and linguistics. Research focus on LLM goal generation in active learning (initiated at MIT). Physics Olympiad medalist, EIROForum Best Project in Biochemistry (EUCYS), and former chair of Sweden's largest programming and cybersecurity organization. Strong track record bridging research fields and delivering impact in multidisciplinary teams.",
+
+  "education": [
+    {
+      "institution": "Lund University",
+      "location": "Lund, Sweden",
+      "degree": "MSc.Eng. Engineering Nanoscience Programme",
+      "start": "2020-08",
+      "end": "2025-12",
+      "specialisations": [
+        "Mathematical Simulation",
+        "Nano-BioMedicine"
+      ],
+      "gpa": [
+        {
+          "period": "years 1–3",
+          "scale_max": 5,
+          "value": 4.41
+        },
+        {
+          "period": "years 4–5 (master’s-level coursework)",
+          "scale_max": 5,
+          "value": 4.92
+        }
+      ]
+    }
+  ],
+
+  "research_experience": [
+    {
+      "organization": "Massachusetts Institute of Technology (MIT)",
+      "location": "Cambridge, MA, USA",
+      "role": "Research Intern",
+      "supervisor": "Prof. Rafael Gómez-Bombarelli",
+      "group": "Gómez-Bombarelli Group",
+      "start": "2025-06",
+      "end": "2025-08",
+      "topic": "LLM-mediated Bayesian optimization for biochemistry"
+    },
+    {
+      "organization": "Politecnico di Torino",
+      "location": "Turin, Italy",
+      "role": "Research Intern",
+      "supervisor": "Prof. Giovanni M. Pavan",
+      "group": "Pavan Group",
+      "start": "2023-03",
+      "end": "2023-08",
+      "topic": "Macromolecular motors using molecular dynamics simulations"
+    },
+    {
+      "organization": "Lund University",
+      "location": "Lund, Sweden",
+      "role": "Research Assistant",
+      "supervisor": "Assoc. Prof. Adam Burke",
+      "start": "2022-05",
+      "end": "2022-12",
+      "topic": "Nanoscale heat engine efficiency analysis"
+    },
+    {
+      "organization": "University of Cambridge",
+      "location": "Cambridge, UK",
+      "role": "Research Intern",
+      "supervisor": "Prof. Tuomas Knowles",
+      "group": "Knowles Group",
+      "start": "2021-05",
+      "end": "2021-08",
+      "topic": "Protein ion binding measurements with microfluidics"
+    },
+    {
+      "organization": "Lund University (iGEM Team)",
+      "location": "Lund, Sweden",
+      "role": "Team Member",
+      "supervisor": "Assoc. Prof. Johan S. Bonde",
+      "start": "2020",
+      "end": "2021",
+      "topic": "Anti-oomycete peptides using neural networks"
+    },
+    {
+      "organization": "Karolinska Institute",
+      "location": "Stockholm, Sweden",
+      "role": "Intern",
+      "supervisor": "Prof. Maria Issagouliants",
+      "start": "2017",
+      "end": "2017",
+      "topic": "HIV-1 immunogen T-cell response"
+    }
+  ],
+
+  "technical_skills": {
+    "languages": [
+      "Python",
+      "C++",
+      "Java",
+      "MATLAB"
+    ],
+    "tools": [
+      "Git",
+      "Bash",
+      "Slurm"
+    ],
+    "libraries_frameworks": [
+      "PyTorch",
+      "TRL",
+      "Torchtune",
+      "LangGraph"
+    ],
+    "simulation": [
+      "GROMACS",
+      "PLUMED",
+      "Martini coarse-grain MD"
+    ],
+    "domains": [
+      "machine learning",
+      "Bayesian optimization",
+      "molecular simulation"
+    ]
+  },
+
+  "leadership_extracurricular": [
+    {
+      "organization": "Kodsport Sverige",
+      "title": "Chairperson",
+      "start": "2021",
+      "end": "2023",
+      "description": "Sweden's largest programming and cybersecurity organization"
+    },
+    {
+      "organization": "European Girls' Olympiad in Informatics 2023",
+      "title": "Founder, Logistics Officer",
+      "start": "2021",
+      "end": "2023",
+      "description": "World's largest coding competition for female high-schoolers"
+    },
+    {
+      "organization": "Unga Forskare",
+      "title": "Board Member",
+      "start": "2020",
+      "end": "2023",
+      "description": "Sweden's largest non-profit advancing youth interest in STEM"
+    },
+    {
+      "organization": "F-Guild at LTH Student Union",
+      "title": "Corporate Contact; Head Caretaker; Introduction Organizer",
+      "start": "2021",
+      "end": "2022",
+      "description": null
+    }
+  ],
+
+  "teaching_experience": [
+    {
+      "activity": "Workshop for Nordic IMO Teams — Optimised learning for elite mathematicians",
+      "start": "2025",
+      "end": "2025",
+      "ongoing": false
+    },
+    {
+      "activity": "Kodsport Sverige — Competitive programming workshops and competitions (high school and university)",
+      "start": "2019",
+      "end": null,
+      "ongoing": true
+    },
+    {
+      "activity": "Ung Vetenskapssport — Advanced mathematics workshops (high school)",
+      "start": "2018",
+      "end": null,
+      "ongoing": true
+    }
+  ],
+
+  "languages_spoken": [
+    {
+      "language": "Swedish",
+      "proficiency": "Native"
+    },
+    {
+      "language": "English",
+      "proficiency": "Fully fluent"
+    },
+    {
+      "language": "Arabic",
+      "proficiency": "Professional"
+    },
+    {
+      "language": "French",
+      "proficiency": "Limited"
+    },
+    {
+      "language": "Italian",
+      "proficiency": "Beginner"
+    }
+  ],
+
+  "honors_awards": [
+    {
+      "title": "Stipendium Berzelianum",
+      "issuer": "Swedish Royal Academy of Sciences",
+      "date": "2025-02"
+    },
+    {
+      "title": "Bronze Medal, International Physics Olympiad (IPhO)",
+      "issuer": null,
+      "date": "2019-07"
+    },
+    {
+      "title": "EIROForum Best Project in Biochemistry, EUCYS",
+      "issuer": null,
+      "date": "2019-09"
+    },
+    {
+      "title": "6th Place, Swedish Programming Olympiad",
+      "issuer": null,
+      "date": "2019-03"
+    },
+    {
+      "title": "iGEM Gold Medal — Simulating Curli fibril growth",
+      "issuer": "iGEM",
+      "date": "2021-11"
+    },
+    {
+      "title": "iGEM Gold Medal — Designing peptides with machine learning",
+      "issuer": "iGEM",
+      "date": "2020-11"
+    }
+  ],
+
+  "military_service": [
+    {
+      "title": "Mortar Command Post Group Leader (OR3)",
+      "start": "2020-06",
+      "end": "2020-06"
+    }
+  ],
+
+  "professional_training": [
+    {
+      "title": "DELF B2 French Certification",
+      "provider": null,
+      "date": "2019-06"
+    },
+    {
+      "title": "Data Scientist with Python",
+      "provider": "DataCamp",
+      "date": "2019-12"
+    },
+    {
+      "title": "Machine Learning Scientist with Python",
+      "provider": "DataCamp",
+      "date": "2020-07"
+    },
+    {
+      "title": "IELTS C2 English Certification",
+      "provider": null,
+      "date": "2025-10"
+    }
+  ],
+
+  "work_experience": [
+    {
+      "role": "Tutor",
+      "organization": "Lund University",
+      "start": "2021-08",
+      "end": "2021-10"
+    },
+    {
+      "role": "Private Tutor in Mathematics and French",
+      "organization": null,
+      "start": "2018",
+      "end": "2019"
+    },
+    {
+      "role": "Climbing Coach",
+      "organization": "Skånes Klätterklubb",
+      "start": "2017",
+      "end": "2019"
+    },
+    {
+      "role": "Chess Tutor",
+      "organization": "Lunds ASK",
+      "start": "2015",
+      "end": "2018"
+    }
+  ],
+
+  "references": [
+    {
+      "name": "Rafael Gómez-Bombarelli",
+      "affiliation": "MIT DMSE",
+      "email": "rafagb@mit.edu",
+      "phone": "+1 617-253-5632"
+    },
+    {
+      "name": "Giovanni M. Pavan",
+      "affiliation": "Politecnico di Torino",
+      "email": "giovanni.pavan@polito.it",
+      "phone": "+39 011090 8510"
+    },
+    {
+      "name": "Tuomas Knowles",
+      "affiliation": "Cambridge Chemistry",
+      "email": "tpjk2@cam.ac.uk",
+      "phone": "+44 12 23 33 63 00"
+    },
+    {
+      "name": "Adam Burke",
+      "affiliation": "Lund Physics",
+      "email": "adam.burke@ftf.lth.se",
+      "phone": "+46 46 222 79 30"
+    }
+  ],
+
+  "notes": [
+    "Additional references and grade transcripts available upon request."
+  ]
+}

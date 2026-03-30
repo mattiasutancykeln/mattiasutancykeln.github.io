@@ -1,5 +1,3 @@
-import { prerenderToNodeStream } from "react-dom/static";
-
 /**
  * Research post metadata. Single source for /research page (PROJECT.md §3.3).
  * Update this array to add or edit entries; optional: add figure.png and paper.pdf per slug in public/content/research/[slug]/.

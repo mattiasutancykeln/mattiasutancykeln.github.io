@@ -1,0 +1,169 @@
+# Machine-readable CV (line-oriented)
+# Encoding: UTF-8
+# Record blocks: lines starting with "@@ " begin a section. Fields use "key: value" (one space after colon).
+# Arrays: use "- " list items under a section. Blank line ends a logical block when parsing loosely.
+# Canonical structured JSON: https://mattiasakke.com/cv.json
+# PDF: https://mattiasakke.com/cv.pdf
+
+@@ meta
+format: cv_v1_plain
+full_name: Mattias Akke
+cv_json_url: https://mattiasakke.com/cv.json
+
+@@ person
+location: Lund, Sweden
+phone: +46 073-5099310
+email: mattias.akke@gmail.com
+linkedin: https://linkedin.com/in/mattias-akke
+github: https://github.com/mattiasutancykeln
+
+@@ professional_summary
+text: MScEng in Engineering Nanoscience and Applied Mathematics with experience in AI for science, competitive programming, chemistry, biophysics, and linguistics. Research focus on LLM goal generation in active learning (initiated at MIT). Physics Olympiad medalist, EIROForum Best Project in Biochemistry (EUCYS), and former chair of Sweden's largest programming and cybersecurity organization. Strong track record bridging research fields and delivering impact in multidisciplinary teams.
+
+@@ education
+institution: Lund University
+location: Lund, Sweden
+start: 2020-08
+end: 2025-12
+degree: MSc.Eng. Engineering Nanoscience Programme
+specialisation: Mathematical Simulation
+specialisation: Nano-BioMedicine
+gpa: 4.41/5 (years 1–3)
+gpa: 4.92/5 (years 4–5, master’s-level coursework)
+
+@@ research_experience
+org: Massachusetts Institute of Technology (MIT)
+location: Cambridge, MA, USA
+role: Research Intern
+supervisor: Prof. Rafael Gómez-Bombarelli
+start: 2025-06
+end: 2025-08
+topic: LLM-mediated Bayesian optimization for biochemistry
+
+org: Politecnico di Torino
+location: Turin, Italy
+role: Research Intern
+supervisor: Prof. Giovanni M. Pavan
+start: 2023-03
+end: 2023-08
+topic: Macromolecular motors using molecular dynamics simulations
+
+org: Lund University
+location: Lund, Sweden
+role: Research Assistant
+supervisor: Assoc. Prof. Adam Burke
+start: 2022-05
+end: 2022-12
+topic: Nanoscale heat engine efficiency analysis
+
+org: University of Cambridge
+location: Cambridge, UK
+role: Research Intern
+supervisor: Prof. Tuomas Knowles
+start: 2021-05
+end: 2021-08
+topic: Protein ion binding measurements with microfluidics
+
+org: Lund University (iGEM Team)
+location: Lund, Sweden
+role: Team Member
+supervisor: Assoc. Prof. Johan S. Bonde
+start: 2020
+end: 2021
+topic: Anti-oomycete peptides using neural networks
+
+org: Karolinska Institute
+location: Stockholm, Sweden
+role: Intern
+supervisor: Prof. Maria Issagouliants
+start: 2017
+end: 2017
+topic: HIV-1 immunogen T-cell response
+
+@@ technical_skills
+skill: Python
+skill: C++
+skill: Java
+skill: MATLAB
+skill: Git
+skill: Bash
+skill: Slurm
+skill: PyTorch
+skill: TRL
+skill: Torchtune
+skill: LangGraph
+skill: GROMACS
+skill: PLUMED
+skill: Martini coarse-grain MD
+skill: machine learning
+skill: Bayesian optimization
+skill: molecular simulation
+
+@@ leadership_extracurricular
+org: Kodsport Sverige
+title: Chairperson
+start: 2021
+end: 2023
+description: Sweden's largest programming and cybersecurity organization
+
+org: European Girls' Olympiad in Informatics 2023
+title: Founder, Logistics Officer
+start: 2021
+end: 2023
+description: World's largest coding competition for female high-schoolers
+
+org: Unga Forskare
+title: Board Member
+start: 2020
+end: 2023
+description: Sweden's largest non-profit advancing youth interest in STEM
+
+org: F-Guild at LTH Student Union
+title: Corporate Contact; Head Caretaker; Introduction Organizer
+start: 2021
+end: 2022
+
+@@ teaching_experience
+item: Workshop for Nordic IMO Teams — Optimised learning for elite mathematicians | 2025
+item: Kodsport Sverige — Competitive programming workshops and competitions (high school and university) | 2019–present
+item: Ung Vetenskapssport — Advanced mathematics workshops (high school) | 2018–present
+
+@@ languages
+language: Swedish | Native
+language: English | Fully fluent
+language: Arabic | Professional
+language: French | Limited
+language: Italian | Beginner
+
+@@ honors_awards
+award: Stipendium Berzelianum | Swedish Royal Academy of Sciences | 2025-02
+award: Bronze Medal, International Physics Olympiad (IPhO) | | 2019-07
+award: EIROForum Best Project in Biochemistry, EUCYS | | 2019-09
+award: 6th Place, Swedish Programming Olympiad | | 2019-03
+award: iGEM Gold Medal — Simulating Curli fibril growth | iGEM | 2021-11
+award: iGEM Gold Medal — Designing peptides with machine learning | iGEM | 2020-11
+
+@@ military_service
+role: Mortar Command Post Group Leader (OR3)
+date: 2020-06
+
+@@ professional_training
+training: DELF B2 French Certification | | 2019-06
+training: Data Scientist with Python | DataCamp | 2019-12
+training: Machine Learning Scientist with Python | DataCamp | 2020-07
+training: IELTS C2 English Certification | | 2025-10
+
+@@ work_experience
+job: Tutor | Lund University | 2021-08 | 2021-10
+job: Private Tutor in Mathematics and French | | 2018 | 2019
+job: Climbing Coach | Skånes Klätterklubb | 2017 | 2019
+job: Chess Tutor | Lunds ASK | 2015 | 2018
+
+@@ references
+ref: Rafael Gómez-Bombarelli | MIT DMSE | rafagb@mit.edu | +1 617-253-5632
+ref: Giovanni M. Pavan | Politecnico di Torino | giovanni.pavan@polito.it | +39 011090 8510
+ref: Tuomas Knowles | Cambridge Chemistry | tpjk2@cam.ac.uk | +44 12 23 33 63 00
+ref: Adam Burke | Lund Physics | adam.burke@ftf.lth.se | +46 46 222 79 30
+
+@@ notes
+note: Additional references and grade transcripts available upon request.

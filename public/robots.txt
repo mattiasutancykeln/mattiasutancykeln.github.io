@@ -1,4 +1,7 @@
+# Public content; sitemap lists HTML routes plus llms.txt, cv.txt, cv.json for tools.
 User-agent: *
 Allow: /
 
 Sitemap: https://mattiasakke.com/sitemap.xml
+
+# Machine-readable site summary (many AI / research crawlers look here): https://mattiasakke.com/llms.txt

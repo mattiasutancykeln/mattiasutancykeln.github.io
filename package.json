@@ -6,7 +6,7 @@
   "homepage": "https://mattiasutancykeln.github.io/",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist",
     "lint": "eslint ."
