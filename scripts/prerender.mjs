@@ -113,8 +113,10 @@ async function main() {
     root,
     server: { middlewareMode: true },
     appType: 'custom',
+    // Do NOT list react-dom here: bundling it pulls in server.node.js (CommonJS `require`),
+    // which fails in Vite's ESM SSR evaluator ("require is not defined"). Let Node load it.
     ssr: {
-      noExternal: ['framer-motion', 'react-dom', 'react-router', 'react-router-dom'],
+      noExternal: ['framer-motion'],
     },
   });
 
