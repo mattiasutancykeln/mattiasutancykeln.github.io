@@ -14,7 +14,7 @@ cv_json_url: https://mattiasakke.com/cv.json
 location: Lund, Sweden
 phone: +46 073-5099310
 email: mattias.akke@gmail.com
-linkedin: https://linkedin.com/in/mattias-akke
+linkedin: https://www.linkedin.com/in/mattias-akke-40a83219a
 github: https://github.com/mattiasutancykeln
 
 @@ professional_summary

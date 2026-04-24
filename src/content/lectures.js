@@ -25,4 +25,15 @@ export const lecturePosts = [
     venue: null,
     audience: 'Swedish mathematical olympiad finalists',
   },
+  {
+    slug: 'algebra2-smt',
+    title: 'Functions',
+    institution: 'Ung Vetenskapssport',
+    date: '2025',
+    summary: 'Algebra lecture on functions for Swedish mathematical olympiad finalists.',
+    tags: ['Mathematics', 'Education', 'Algebra'],
+    pdfFile: 'functions.pdf',
+    venue: null,
+    audience: 'Swedish mathematical olympiad finalists',
+  },
 ];
